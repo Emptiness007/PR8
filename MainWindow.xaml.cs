@@ -37,6 +37,7 @@ namespace Weather_Filimonova
         {
             var weatherData = await FetchWeatherData(city);
             WeatherDataGrid.ItemsSource = weatherData;
+            LocationLabel.Content = city;
         }
 
         private async Task<List<WeatherData>> FetchWeatherData(string city)
@@ -80,11 +81,24 @@ namespace Weather_Filimonova
 
             if (string.IsNullOrEmpty(city))
             {
-                MessageBox.Show("Пожалуйста, введите название города.");
-                return;
+                city = "Пермь";
             }
 
             await UpdateWeather(city);
+        }
+
+        private async void UoadateKey(object sender, KeyEventArgs e)
+        {
+            string city = CityTextBox.Text.Trim();
+            if (e.Key == Key.Enter)
+            {
+                if (string.IsNullOrEmpty(city))
+                {
+                    MessageBox.Show("Неккоректный ввод города");
+                    return;
+                }
+                await UpdateWeather(city);
+            } 
         }
     }
 }
